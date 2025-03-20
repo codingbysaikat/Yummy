@@ -1,13 +1,22 @@
 <?php
 define("VERSION", time());
+// Customizer load
+include('library/customizer.php');
 // Theme Basices Bootstriping
 function yummy_theme_doc(){
 	load_theme_textdomain('yummy');
 	add_theme_support('title_tag');
 	add_theme_support('html5', array('search-form','comment-list'));
 	add_theme_support('post-formats',array('image','video'));
+	add_theme_support('custom-logo');
+	add_theme_support( 'menus' );
+	add_theme_support('post-thumbnails'); 
+	//Register the Dropdown Menu
+	register_nav_menus(array(
+        'primary-menu' => __('dropdwon', 'yummy'),
+    ));
 }
-add_action('after_theme_setup','yummy_theme_doc');
+add_action('after_setup_theme','yummy_theme_doc');
 // all scripts loading
 function yummy_scripts(){
 	//Enqueue the Fonts
