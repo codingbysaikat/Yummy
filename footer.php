@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <h4><?php echo esc_url('Follow Us')?></h4>
+          <h4><?php echo esc_html__('Follow Us')?></h4>
           <div class="social-links d-flex">
             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
