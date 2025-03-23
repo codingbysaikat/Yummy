@@ -17,6 +17,62 @@ function yummy_theme_doc(){
     ));
 }
 add_action('after_setup_theme','yummy_theme_doc');
+function yummy_register_custom_post_type(){
+    // Register Custom Post Type: Menus
+
+    $args = array(
+        'label'               =>'Menu Items',
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'query_var'           => true,
+        'menu_position'       => 5,
+        'menu_icon'           => 'dashicons-food',
+        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'has_archive'         => true,
+        'hierarchical'        => false,
+        'rewrite'             => array('slug' => 'menus'),
+        'show_in_rest'        => true, // Enables Gutenberg support
+        'capability_type'     => 'post',
+        'taxonomies'          => array('menus_category'), // Attach custom category
+    );
+    register_post_type('menus', $args);
+
+    // Register Custom Taxonomy: Menus Categories
+    $labels = array(
+        'name'              => __('Menus Categories', 'yummy'),
+        'singular_name'     => __('Menus Category', 'yummy'),
+        'search_items'      => __('Search Menus Categories', 'yummy'),
+        'all_items'         => __('All Menus Categories', 'yummy'),
+        'parent_item'       => __('Parent Menus Category', 'yummy'),
+        'parent_item_colon' => __('Parent Menus Category:', 'yummy'),
+        'edit_item'         => __('Edit Menus Category', 'yummy'),
+        'update_item'       => __('Update Menus Category', 'yummy'),
+        'add_new_item'      => __('Add New Menus Category', 'yummy'),
+        'new_item_name'     => __('New Menus Category Name', 'yummy'),
+        'menu_name'         => __('Menus Categories', 'yummy'),
+    );
+    $args = array(
+        'labels'            => $labels,
+        'hierarchical'      => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => 'menus-category'),
+        'show_in_rest'      => true,
+    );
+
+    register_taxonomy('menus_category', array('menus'), $args);
+	
+    $default_categories = array('Starters', 'Breakfast', 'Lunch', 'Dinner');
+    foreach ($default_categories as $category) {
+        if (!term_exists($category, 'menus_category')) {
+            wp_insert_term($category, 'menus_category');
+        }
+    }
+}
+add_action('init', 'yummy_register_custom_post_type');
+
 // all scripts loading
 function yummy_scripts(){
 	//Enqueue the Fonts

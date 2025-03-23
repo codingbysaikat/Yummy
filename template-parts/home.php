@@ -41,7 +41,11 @@ get_header();
     <!-- /About Section -->
     <!-- Stats Section -->
     <section id="stats" class="stats section dark-background">
-        <img src="<?php echo get_theme_file_uri() . "/assets/img/stats-bg.jpg" ?>" alt="" data-aos="fade-in">
+        <?php if(get_theme_mod('about_info_banner')): $image_url = get_theme_mod('about_info_banner');?>
+        <img src="<?php echo $image_url;?>" alt="" data-aos="fade-in">
+        <?php else:?>
+            <img src="<?php echo get_theme_file_uri() . "/assets/img/stats-bg.jpg" ?>" alt="" data-aos="fade-in">            
+        <?php endif;?>
         <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
             <div class="row gy-4">
                 <div class="col-lg-3 col-md-6">
@@ -76,7 +80,7 @@ get_header();
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2><?php echo esc_html__('Our Menu') ?></h2>
-            <p><span><?php echo esc_html__('Check Our') ?></span> <span class="description-title"><?php echo esc_html__('Yummy Menu') ?></span></p>
+            <p><?php echo esc_html__(get_theme_mod('menus-title','Check Our Yummy Menu'))?></p>
         </div><!-- End Section Title -->
         <div class="container">
             <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">

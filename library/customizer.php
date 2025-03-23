@@ -1,23 +1,30 @@
 <?php
 function yummy_customize_register( $wp_customize){
-    // Add a section for Hero Area
+    // Add a Section for Hero Area
     $wp_customize->add_section('hero',array(
         'title'=>__('Hero Section','yummy'),
         'priority'=>'30',
 
     ));
-    // About Section Start Here
+    // Add a Section for About
     $wp_customize->add_section('about',array(
         'title'=>__('About Section','yummy'),
         'priority'=>'50',
 
     ));
-    // About Information Sectin
+    // Add a Section for About Information
     $wp_customize->add_section('about-info',array(
         'title'=>__('About Info'),
         'priority'=>'60'
 
     ));
+    // Add a Section for Menu
+    $wp_customize->add_section('menus-sec',array(
+        'title'=>__('Menu Section'),
+        'priority'=>'65',
+
+    ));
+
     // Start Hero Section Controls and Settings
     // Add Control and Setting for a Headline
     $wp_customize->add_setting('headline',array(
@@ -139,6 +146,32 @@ function yummy_customize_register( $wp_customize){
         'type'=>'text',
 
     ));
+    // Add Control and Setting for About Video Banner
+    $wp_customize->add_setting('about_info_banner',array(
+       'default'=>'',
+       'transport'=>'refresh',
+    
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control( $wp_customize, 'about_info_banner',array(
+        'label'      => __( 'Upload a About info banner', 'yummy' ),
+        'section'    => 'about-info',
+        'settings'   => 'about_info_banner',
+       ) ));
     // End About Info Section Controls and Settings
+
+    // Add Control and Setting for Number of Projects
+    // Add Control and Setting for About Video Banner
+    $wp_customize->add_setting('menus-title',array(
+        'default'=>'Check Our Yummy Menu',
+        'transport'=>'refresh',
+        
+    ));
+    $wp_customize->add_control('menu-title',array(
+        'label'=>__('Add a Tilte','yummy'),
+        'section'=>'menus-sec',
+        'settings'=>'menus-title',
+        'type'=>'text',
+    ));
+    // End Control and Setting for Number of Projects
 }
 add_action("customize_register","yummy_customize_register");
