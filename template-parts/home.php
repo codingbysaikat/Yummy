@@ -3,7 +3,7 @@
  * Template Name: Home Page
  * @package WordPress
  */
-get_header();
+get_header(); 
 ?>
 <main class="main">
     <!-- Hero Section -->
@@ -51,31 +51,32 @@ get_header();
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
                         <span data-purecounter-start="0" data-purecounter-end="<?php echo esc_html__(get_theme_mod('about-info-clients','232'))?>" data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Clients</p>
+                        <p><?php echo esc_html__('Clients');?></p>
                     </div>
                 </div><!-- End Stats Item -->
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
                         <span data-purecounter-start="0" data-purecounter-end="<?php echo esc_html__(get_theme_mod('about-info-projects','521'))?>" data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Projects</p>
+                        <p><?php echo esc_html__('Projects')?></p>
                     </div>
                 </div><!-- End Stats Item -->
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
                         <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Hours Of Support</p>
+                        <p><?php echo esc_html__('Hours Of Support');?></p>
                     </div>
                 </div><!-- End Stats Item -->
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
                         <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
-                        <p>Workers</p>
+                        <p><?php echo esc_html__('Workers');?></p>
                     </div>
                 </div><!-- End Stats Item -->
             </div>
         </div>
     </section><!-- /Stats Section -->
     <!-- Menu Section -->
+    <?php if(post_in_term('starters') || post_in_term('breakfast') || post_in_term('lunch') || post_in_term('dinner') ):?>
     <section id="menu" class="menu section">
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
@@ -84,322 +85,125 @@ get_header();
         </div><!-- End Section Title -->
         <div class="container">
             <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                <?php if(post_in_term('starters')):?>
                 <li class="nav-item">
                     <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-                        <h4>Starters</h4>
+                        <h4><?php echo esc_html__('Starters');?></h4>
                     </a>
                 </li><!-- End tab nav item -->
+                <?php endif;  if(post_in_term('lunch')):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-                        <h4>Breakfast</h4>
+                        <h4><?php echo esc_html__('Breakfast');?></h4>
                     </a><!-- End tab nav item -->
                 </li>
+                <?php endif; if(post_in_term('lunch')):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
-                        <h4>Lunch</h4>
+                        <h4><?php echo esc_html__('Lunch');?></h4>
                     </a>
                 </li><!-- End tab nav item -->
+                <?php endif; if(post_in_term('dinner')):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
-                        <h4>Dinner</h4>
+                        <h4><?php echo esc_html__('Dinner');?></h4>
                     </a>
                 </li><!-- End tab nav item -->
+                <?php endif;?>
             </ul>
             <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+            <?php if(post_in_term('starters')):?>
                 <div class="tab-pane fade active show" id="menu-starters">
                     <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Starters</h3>
+                        <p><?php echo esc_html__('Menu');?></p>
+                        <h3><?php echo esc_html__('Starters');?></h3>
                     </div>
                     <div class="row gy-5">
+                    <?php $starter_query = post_in_term('starters'); while($starter_query->have_posts()): $starter_query->the_post();?>
                         <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-1.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Magnam Tiste</h4>
+                            <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
+                            <h4><?php esc_html__(the_title());?></h4>
                             <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
+                                <?php echo esc_html__(wp_strip_all_tags( get_the_content()));?>
                             </p>
                             <p class="price">
-                                $5.95
+                                <?php echo esc_html__(get_post_meta( get_the_ID(),'yummy_price',true));?>
                             </p>
                         </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-2.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Aut Luia</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $14.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-3.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Est Eligendi</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $8.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-4.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-5.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-6.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Laboriosam Direva</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $9.95
-                            </p>
-                        </div><!-- Menu Item -->
-
+                        <?php endwhile;?>
                     </div>
                 </div><!-- End Starter Menu Content -->
+                <?php endif; if(post_in_term('breakfast')):?>
                 <div class="tab-pane fade" id="menu-breakfast">
                     <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Breakfast</h3>
+                        <p><?php echo esc_html__('Menu');?></p>
+                        <h3><?php echo esc_html__('Breakfast');?></h3>
                     </div>
                     <div class="row gy-5">
+                    <?php $breakFast_query = post_in_term('breakfast'); while($breakFast_query->have_posts()): $breakFast_query->the_post();?>
                         <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-1.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Magnam Tiste</h4>
+                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
+                            <h4><?php esc_html__(the_title());?></h4>
                             <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
+                            <?php echo esc_html__(wp_strip_all_tags( get_the_content()));?>
                             </p>
                             <p class="price">
-                                $5.95
+                            <?php echo esc_html__(get_post_meta( get_the_ID(),'yummy_price',true));?>
                             </p>
                         </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-2.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Aut Luia</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $14.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-3.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Est Eligendi</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $8.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-4.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-5.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-6.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Laboriosam Direva</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $9.95
-                            </p>
-                        </div><!-- Menu Item -->
+                        <?php endwhile;?>
                     </div>
                 </div><!-- End Breakfast Menu Content -->
-
+                <?php endif; if(post_in_term('lunch')):?>
                 <div class="tab-pane fade" id="menu-lunch">
                     <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Lunch</h3>
+                        <p><?php echo esc_html__('Menu');?></p>
+                        <h3><?php echo esc_html__('Lunch');?></h3>
                     </div>
                     <div class="row gy-5">
+                    <?php $lunch_query = post_in_term('lunch'); while($lunch_query->have_posts()): $lunch_query->the_post();?>
                         <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-1.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Magnam Tiste</h4>
+                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
+                            <h4><?php esc_html__(the_title());?></h4>
                             <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
+                            <?php echo esc_html__(wp_strip_all_tags( get_the_content()));?>
                             </p>
                             <p class="price">
-                                $5.95
+                            <?php echo esc_html__(get_post_meta( get_the_ID(),'yummy_price',true));?>
                             </p>
                         </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-2.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Aut Luia</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $14.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-3.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Est Eligendi</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $8.95
-                            </p>
-                        </div><!-- Menu Item -->
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-4.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-5.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-6.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Laboriosam Direva</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $9.95
-                            </p>
-                        </div><!-- Menu Item -->
-
+                    <?php endwhile;?>
                     </div>
                 </div><!-- End Lunch Menu Content -->
-
-                <div class="tab-pane fade" id="menu-dinner">
-
+                <?php endif; if(post_in_term('dinner')):?>
+            <div class="tab-pane fade" id="menu-dinner">
                     <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Dinner</h3>
+                        <p><?php echo esc_html__('Menu');?></p>
+                        <h3><?php echo esc_html__('Dinner')?></h3>
                     </div>
-
-                    <div class="row gy-5">
-
+                <div class="row gy-5">
+                    <?php $dinner_query = post_in_term('dinner'); while($dinner_query->have_posts()): $dinner_query->the_post();?>
                         <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-1.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Magnam Tiste</h4>
+                            <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
+                            <h4><?php the_title();?></h4>
                             <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
+                            <?php echo wp_strip_all_tags( get_the_content());?>
                             </p>
                             <p class="price">
-                                $5.95
+                            <?php echo get_post_meta( get_the_ID(),'yummy_price',true);?>
                             </p>
                         </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-2.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Aut Luia</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $14.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-3.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Est Eligendi</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $8.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-4.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-5.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Eos Luibusdam</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $12.95
-                            </p>
-                        </div><!-- Menu Item -->
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="<?php echo get_theme_file_uri() . "/assets/img/menu/menu-item-6.png" ?>" class="menu-img img-fluid" alt=""></a>
-                            <h4>Laboriosam Direva</h4>
-                            <p class="ingredients">
-                                Lorem, deren, trataro, filede, nerada
-                            </p>
-                            <p class="price">
-                                $9.95
-                            </p>
-                        </div><!-- Menu Item -->
-
+                        <?php endwhile;?>
                     </div>
                 </div><!-- End Dinner Menu Content -->
-
+                <?php endif;?>
             </div>
 
         </div>
 
     </section>
     <!-- /Menu Section -->
+     <?php endif; if(post_in_event()):?>
     <!-- Events Section -->
     <section id="events" class="events section">
 
@@ -432,39 +236,15 @@ get_header();
                     }
                 </script>
                 <div class="swiper-wrapper">
-
-                    <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_theme_file_uri() . "/assets/img/events-1.jpg" ?>)">
-                        <h3>Custom Parties</h3>
-                        <div class="price align-self-start">$99</div>
+                    <?php $events = post_in_event(); while( $events->have_posts()): $events->the_post();?>
+                    <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_the_post_thumbnail_url(); ?>)">
+                        <h3><?php the_title(); ?></h3>
+                        <div class="price align-self-start"><?php echo get_post_meta( get_the_ID(),'yummy_price',true);?></div>
                         <p class="description">
-                            Quo corporis voluptas ea ad. Consectetur inventore sapiente ipsum voluptas eos omnis facere. Enim facilis veritatis id est rem repudiandae nulla expedita quas.
+                            <?php echo wp_strip_all_tags( get_the_content());?>
                         </p>
                     </div><!-- End Event item -->
-
-                    <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_theme_file_uri() . "/assets/img/events-2.jpg" ?>)">
-                        <h3>Private Parties</h3>
-                        <div class="price align-self-start">$289</div>
-                        <p class="description">
-                            In delectus sint qui et enim. Et ab repudiandae inventore quaerat doloribus. Facere nemo vero est ut dolores ea assumenda et. Delectus saepe accusamus aspernatur.
-                        </p>
-                    </div><!-- End Event item -->
-
-                    <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_theme_file_uri() . "/assets/img/events-3.jpg" ?>)">
-                        <h3>Birthday Parties</h3>
-                        <div class="price align-self-start">$499</div>
-                        <p class="description">
-                            Laborum aperiam atque omnis minus omnis est qui assumenda quos. Quis id sit quibusdam. Esse quisquam ducimus officia ipsum ut quibusdam maxime. Non enim perspiciatis.
-                        </p>
-                    </div><!-- End Event item -->
-
-                    <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_theme_file_uri() . "/assets/img/events-4.jpg" ?>)">
-                        <h3>Wedding Parties</h3>
-                        <div class="price align-self-start">$899</div>
-                        <p class="description">
-                            Laborum aperiam atque omnis minus omnis est qui assumenda quos. Quis id sit quibusdam. Esse quisquam ducimus officia ipsum ut quibusdam maxime. Non enim perspiciatis.
-                        </p>
-                    </div><!-- End Event item -->
-
+                    <?php endwhile;?>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -472,7 +252,7 @@ get_header();
         </div>
 
     </section><!-- /Events Section -->
-
+<?php endif;?>
     <!-- Chefs Section -->
     <section id="chefs" class="chefs section">
 
