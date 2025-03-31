@@ -203,7 +203,7 @@ get_header();
 
     </section>
     <!-- /Menu Section -->
-     <?php endif; if(post_in_event()):?>
+     <?php endif; $events = post_in_event(); if($events->have_posts()):?>
     <!-- Events Section -->
     <section id="events" class="events section">
 
@@ -236,7 +236,7 @@ get_header();
                     }
                 </script>
                 <div class="swiper-wrapper">
-                    <?php $events = post_in_event(); while( $events->have_posts()): $events->the_post();?>
+                    <?php while( $events->have_posts()): $events->the_post();?>
                     <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(<?php echo get_the_post_thumbnail_url(); ?>)">
                         <h3><?php the_title(); ?></h3>
                         <div class="price align-self-start"><?php echo get_post_meta( get_the_ID(),'yummy_price',true);?></div>
@@ -252,82 +252,43 @@ get_header();
         </div>
 
     </section><!-- /Events Section -->
-<?php endif;?>
+<?php endif; $cheafs = post_in_cheaf();  if($cheafs->have_posts()):?>
     <!-- Chefs Section -->
     <section id="chefs" class="chefs section">
-
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2><?php echo esc_html__("chefs"); ?></h2>
             <p><span><?php echo esc_html__('Our') ?></span> <span class="description-title"><?php echo esc_html__('Proffesional Chefs') ?><br></span></p>
         </div><!-- End Section Title -->
-
         <div class="container">
-
             <div class="row gy-4">
-
+                <?php while($cheafs->have_posts()): $cheafs->the_post();?>
                 <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="team-member">
                         <div class="member-img">
-                            <img src="<?php echo get_theme_file_uri() . "/assets/img/chefs/chefs-1.jpg" ?>" class="img-fluid" alt="">
+                            <img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="img-fluid" alt="">
                             <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            <?php $cheaf_x = get_post_meta(get_the_ID(),'cheaf_x',true); if($cheaf_x): ?>
+                                <a href="<?php echo esc_url($cheaf_x); ?>"><i class="bi bi-twitter-x"></i></a>
+                                <?php endif; $cheaf_facebook = get_post_meta(get_the_ID(),'cheaf_facebook',true); if($cheaf_facebook): ?>
+                                <a href="<?php echo esc_url($cheaf_facebook); ?>"><i class="bi bi-facebook"></i></a>
+                                <?php endif; $cheaf_instagram = get_post_meta(get_the_ID(),'cheaf_instagram',true); if($cheaf_instagram):?>
+                                <a href="<?php echo esc_url( $cheaf_linkedin); ?>"><i class="bi bi-linkedin"></i></a>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="member-info">
-                            <h4>Walter White</h4>
-                            <span>Master Chef</span>
-                            <p>Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut. Ipsum exercitationem iure minima enim corporis et voluptate.</p>
+                            <h4><?php the_title(); ?></h4>
+                            <span><?php echo $cheaf_position = get_post_meta(get_the_ID(),'cheaf_position',true);?></span>
+                            <?php the_content();?>
                         </div>
                     </div>
                 </div><!-- End Chef Team Member -->
-
-                <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?php echo get_theme_file_uri() . "/assets/img/chefs/chefs-2.jpg" ?>" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Patissier</span>
-                            <p>Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis. Voluptate sed quas reiciendis animi neque sapiente.</p>
-                        </div>
-                    </div>
-                </div><!-- End Chef Team Member -->
-
-                <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-member">
-                        <div class="member-img">
-                            <img src="<?php echo get_theme_file_uri() . "/assets/img/chefs/chefs-3.jpg" ?>" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>Cook</span>
-                            <p>Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt. Voluptates enim aut architecto porro aspernatur molestiae modi.</p>
-                        </div>
-                    </div>
-                </div><!-- End Chef Team Member -->
-
+                <?php endwhile; ?>
             </div>
-
         </div>
-
     </section><!-- /Chefs Section -->
+    <?php  endif;?>
 
     <!-- Book A Table Section -->
     <section id="book-a-table" class="book-a-table section">

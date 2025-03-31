@@ -54,8 +54,8 @@ function yummy_register_custom_post_type(){
         'taxonomies'          => array('events'),
     );
     register_post_type('events', $event_args);
-    $chefs_args = array(
-        'label'=>'Chefs',
+    $cheafs_args = array(
+        'label'=>'Cheafs',
         'public'=>true,
         'show_ui'=>true,
         'show_in_menu'=>true,
@@ -65,12 +65,12 @@ function yummy_register_custom_post_type(){
         'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
         'has_archive'         => true,
         'hierarchical'        => false,
-        'rewrite'             => array('slug' => 'chefs'),
+        'rewrite'             => array('slug' => 'cheafs'),
         'show_in_rest'        => true, // Enables Gutenberg support
         'capability_type'     => 'post',
-        'taxonomies'          => array('chefs'),
+        'taxonomies'          => array('cheafs'),
     );
-    register_post_type('cheafs', $chefs_args);
+    register_post_type('cheafs', $cheafs_args);
 }
 add_action('init', 'yummy_register_custom_post_type');
 
@@ -335,9 +335,10 @@ if(!function_exists('post_in_term')){
             ),
         );
 
-        $query = new WP_Query($menus_args);
+        $menus_query = new WP_Query($menus_args);
+        return $menus_query;
         wp_reset_postdata();
-        return $query;
+
     }
 }
 // Custom Query Function : By Events
@@ -353,4 +354,17 @@ if(!function_exists('post_in_event')){
     wp_reset_postdata();
     }
 }
+// Custom Query function : By Cheafs
+if(!function_exists('post_in_cheafs')){
+    function post_in_cheaf(){
+        $cheafs_args =  array(
+            'post_type'=>'cheafs',
+            'post_status'=>'draft',
+            'posts_per_page'=>10,
+        );
+        $cheafs_query = new WP_Query($cheafs_args);
+        return $cheafs_query;
+        wp_reset_postdata();
 
+    }
+}
