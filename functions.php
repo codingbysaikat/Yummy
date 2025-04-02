@@ -36,7 +36,7 @@ function yummy_register_custom_post_type(){
         'taxonomies'          => array('menus_category'), 
     );
     register_post_type('menus', $menus_args);
-
+    // Register Custom Post Type: Events
     $event_args = array(
         'label'               =>'Events',
         'public'              => true,
@@ -54,6 +54,7 @@ function yummy_register_custom_post_type(){
         'taxonomies'          => array('events'),
     );
     register_post_type('events', $event_args);
+    // Register Custom Post Type: Cheafs
     $cheafs_args = array(
         'label'=>'Cheafs',
         'public'=>true,
@@ -71,6 +72,44 @@ function yummy_register_custom_post_type(){
         'taxonomies'          => array('cheafs'),
     );
     register_post_type('cheafs', $cheafs_args);
+
+    // Register Custom Post Type: Cheafs
+    $cheafs_args = array(
+        'label'=>'Cheafs',
+        'public'=>true,
+        'show_ui'=>true,
+        'show_in_menu'=>true,
+        'query_var'=>true,
+        'menu_postion'=>5,
+        'menu_icon'           => 'dashicons-buddicons-buddypress-logo',
+        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'has_archive'         => true,
+        'hierarchical'        => false,
+        'rewrite'             => array('slug' => 'cheafs'),
+        'show_in_rest'        => true, // Enables Gutenberg support
+        'capability_type'     => 'post',
+        'taxonomies'          => array('cheafs'),
+    );
+    register_post_type('cheafs', $cheafs_args);
+
+    // Register Custom Post Type: Book Table
+    $book_tables = array(
+        'label'=>'Book Tables',
+        'public'=>true,
+        'show_ui'=>true,
+        'show_in_menu'=>true,
+        'query_var'=>true,
+        'menu_postion'=>5,
+        'menu_icon'           => 'dashicons-editor-table',
+        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'has_archive'         => true,
+        'hierarchical'        => false,
+        'rewrite'             => array('slug' => 'book_tables'),
+        'show_in_rest'        => true, // Enables Gutenberg support
+        'capability_type'     => 'post',
+        'taxonomies'          => array('book_tables'),
+    );
+    register_post_type('book_tables', $book_tables);
 }
 add_action('init', 'yummy_register_custom_post_type');
 
@@ -121,12 +160,17 @@ function yummy_scripts(){
 	// Enqueue the Main CSS File
 	wp_enqueue_style("main-style", get_stylesheet_uri());
 	wp_enqueue_script("bootstrap-bundle-min",get_theme_file_uri("/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"),null,VERSION,true);
-	wp_enqueue_script("validate",get_theme_file_uri("/assets/vendor/php-email-form/validate.js"),null,VERSION,true);
+	// wp_enqueue_script("validate",get_theme_file_uri("/assets/vendor/php-email-form/validate.js"),null,VERSION,true);
 	wp_enqueue_script("aos",get_theme_file_uri("/assets/vendor/aos/aos.js"),null,VERSION,true);
 	wp_enqueue_script("glightbox",get_theme_file_uri("/assets/vendor/glightbox/js/glightbox.min.js"),null,VERSION,true);
 	wp_enqueue_script("purecounter_vanilla",get_theme_file_uri("/assets/vendor/purecounter/purecounter_vanilla.js"),null,VERSION,true);
 	wp_enqueue_script("swiper-bundle.min",get_theme_file_uri("/assets/vendor/swiper/swiper-bundle.min.js"),null,VERSION,true);
 	wp_enqueue_script("main.js",get_theme_file_uri("/assets/js/main.js"),null,VERSION,true);
+    // enqueue your custom JavaScript file and localize the AJAX URL.
+    wp_enqueue_script('my-ajax-script', get_template_directory_uri() . '/assets/js/my-ajax-script.js', array('jquery'), null, true);
+    wp_localize_script('my-ajax-script', 'my_ajax_object', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ));
 
 }
 add_action('wp_enqueue_scripts','yummy_scripts');
@@ -368,3 +412,67 @@ if(!function_exists('post_in_cheafs')){
 
     }
 }
+// Book a Table Function
+if(!function_exists('book_tables')){
+    function book_table(){
+        if(isset($_POST['submit']) && wp_verify_nonce($_POST['book_table_nonce'],basename(__FILE__))){
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $date = $_POST['date'];
+            $time = $_POST['time'];
+            $numberOfpeoples = $_POST['people'];
+            $message = $_POST['message'];
+        }
+
+
+    }
+}
+function handle_my_ajax_request() {
+    // Get data from AJAX request
+    $name = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : 'Guest';
+    $email = isset($_POST['email']) ;
+    $phone = isset($_POST['phone']) ;
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $numberOfpeoples = $_POST['people'];
+    $message = $_POST['message'];
+    $post_title = $name . " - make a new reservation";
+
+    $post_data = array(
+        'post_title'    => $post_title,
+        'post_content'  =>$message,
+        'post_status'   => 'draft', 
+        'post_author'   => get_current_user_id(),
+        'post_category' => array(1), // Category ID (only for 'post' type)
+        'post_type'     => 'book_tables',  // Change to 'page' or custom post type if needed
+    );
+    $insert_status =  wp_insert_post($post_data);
+    if ($insert_status && !is_wp_error($insert_status)) {
+        // Successfully inserted post, now add meta data
+        add_post_meta($insert_status, 'customer_name', $name, true);
+        add_post_meta($insert_status, 'customer_email', $email, true);
+        add_post_meta($insert_status, 'customer_phone', $phone, true);
+        add_post_meta($insert_status, 'reservation_people', $numberOfpeoples, true);
+        add_post_meta($insert_status, 'reservation_date', $date, true);
+        add_post_meta($insert_status, 'reservation_time', $time, true);
+        add_post_meta($insert_status, 'reservation_message', $message, true);
+    }
+    // Create response
+    if($insert_status){
+        $response = array(
+            'message' => true,
+        );
+    }else{
+        $response = array(
+            'message' => false,
+        );
+    }
+    // Send JSON response
+    wp_send_json_success($response);
+}
+// Register AJAX action for logged-in users
+add_action('wp_ajax_my_ajax_action', 'handle_my_ajax_request');
+
+// Register AJAX action for guests (non-logged-in users)
+add_action('wp_ajax_nopriv_my_ajax_action', 'handle_my_ajax_request');

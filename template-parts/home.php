@@ -76,7 +76,7 @@ get_header();
         </div>
     </section><!-- /Stats Section -->
     <!-- Menu Section -->
-    <?php if(post_in_term('starters') || post_in_term('breakfast') || post_in_term('lunch') || post_in_term('dinner') ):?>
+
     <section id="menu" class="menu section">
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
@@ -112,14 +112,14 @@ get_header();
                 <?php endif;?>
             </ul>
             <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
-            <?php if(post_in_term('starters')):?>
+            <?php $starter_query = post_in_term('starters'); if($starter_query->have_posts()):?>
                 <div class="tab-pane fade active show" id="menu-starters">
                     <div class="tab-header text-center">
                         <p><?php echo esc_html__('Menu');?></p>
                         <h3><?php echo esc_html__('Starters');?></h3>
                     </div>
                     <div class="row gy-5">
-                    <?php $starter_query = post_in_term('starters'); while($starter_query->have_posts()): $starter_query->the_post();?>
+                    <?php while($starter_query->have_posts()): $starter_query->the_post();?>
                         <div class="col-lg-4 menu-item">
                             <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
                             <h4><?php esc_html__(the_title());?></h4>
@@ -133,14 +133,14 @@ get_header();
                         <?php endwhile;?>
                     </div>
                 </div><!-- End Starter Menu Content -->
-                <?php endif; if(post_in_term('breakfast')):?>
+                <?php endif; $breakFast_query = post_in_term('breakfast'); if($breakFast_query->have_posts()):?>
                 <div class="tab-pane fade" id="menu-breakfast">
                     <div class="tab-header text-center">
                         <p><?php echo esc_html__('Menu');?></p>
                         <h3><?php echo esc_html__('Breakfast');?></h3>
                     </div>
                     <div class="row gy-5">
-                    <?php $breakFast_query = post_in_term('breakfast'); while($breakFast_query->have_posts()): $breakFast_query->the_post();?>
+                    <?php while($breakFast_query->have_posts()): $breakFast_query->the_post();?>
                         <div class="col-lg-4 menu-item">
                             <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
                             <h4><?php esc_html__(the_title());?></h4>
@@ -154,14 +154,14 @@ get_header();
                         <?php endwhile;?>
                     </div>
                 </div><!-- End Breakfast Menu Content -->
-                <?php endif; if(post_in_term('lunch')):?>
+                <?php endif; $lunch_query = post_in_term('lunch'); if( $lunch_query->have_posts()):?>
                 <div class="tab-pane fade" id="menu-lunch">
                     <div class="tab-header text-center">
                         <p><?php echo esc_html__('Menu');?></p>
                         <h3><?php echo esc_html__('Lunch');?></h3>
                     </div>
                     <div class="row gy-5">
-                    <?php $lunch_query = post_in_term('lunch'); while($lunch_query->have_posts()): $lunch_query->the_post();?>
+                    <?php while($lunch_query->have_posts()): $lunch_query->the_post();?>
                         <div class="col-lg-4 menu-item">
                             <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="<?php echo esc_url(get_the_post_thumbnail_url()); ?>" class="menu-img img-fluid" alt=""></a>
                             <h4><?php esc_html__(the_title());?></h4>
@@ -203,7 +203,7 @@ get_header();
 
     </section>
     <!-- /Menu Section -->
-     <?php endif; $events = post_in_event(); if($events->have_posts()):?>
+     <?php $events = post_in_event(); if($events->have_posts()):?>
     <!-- Events Section -->
     <section id="events" class="events section">
 
@@ -306,7 +306,8 @@ get_header();
                 <div class="col-lg-4 reservation-img" style="background-image: url(<?php echo get_theme_file_uri() . "/assets/img/reservation.jpg" ?>);"></div>
 
                 <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200">
-                    <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
+                    <form  method="post" role="form" class="php-email-form">
+                        <?php wp_nonce_field(basename(__FILE__),'book_table_nonce'); // Security Check?>
                         <div class="row gy-4">
                             <div class="col-lg-4 col-md-6">
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
@@ -329,14 +330,14 @@ get_header();
                         </div>
 
                         <div class="form-group mt-3">
-                            <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
+                            <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message"></textarea>
                         </div>
 
                         <div class="text-center mt-3">
                             <div class="loading"><?php echo esc_html__('Loading') ?></div>
                             <div class="error-message"></div>
                             <div class="sent-message"><?php echo esc_html__('Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!') ?></div>
-                            <button type="submit"><?php echo esc_html__('Book a Table'); ?></button>
+                            <button type="submit" id="submit"><?php echo esc_html__('Book a Table'); ?></button>
                         </div>
                     </form>
                 </div><!-- End Reservation Form -->

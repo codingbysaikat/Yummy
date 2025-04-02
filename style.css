@@ -200,6 +200,9 @@ Tags: Landing & Website
     padding: 15px;
     margin-bottom: 24px;
   }
+  .ds-block{
+    display: block !important;
+  }
   
   .php-email-form .loading:before {
     content: "";
