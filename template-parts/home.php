@@ -466,23 +466,23 @@ get_header();
 
             </div>
 
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
+            <form  method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
                 <div class="row gy-4">
 
                     <div class="col-md-6">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                        <input type="text" name="name" class="form-control" id="contact_name" placeholder="Your Name" required="">
                     </div>
 
                     <div class="col-md-6 ">
-                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                        <input type="email" class="form-control" name="email" id="contact_email" placeholder="Your Email" required="">
                     </div>
 
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                        <input type="text" class="form-control" name="subject" id="contact_subject" placeholder="Subject" required="">
                     </div>
 
                     <div class="col-md-12">
-                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                        <textarea class="form-control" name="message" id="contact_message" rows="6" placeholder="Message" required=""></textarea>
                     </div>
 
                     <div class="col-md-12 text-center">
@@ -490,7 +490,7 @@ get_header();
                         <div class="error-message"></div>
                         <div class="sent-message"><?php echo esc_html__('Your message has been sent. Thank you!') ?></div>
 
-                        <button type="submit"><?php echo esc_html__('Send Message') ?></button>
+                        <button type="submit" id="msubmit"><?php echo esc_html__('Send Message') ?></button>
                     </div>
 
                 </div>

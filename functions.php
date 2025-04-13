@@ -167,11 +167,10 @@ function yummy_scripts(){
 	wp_enqueue_script("swiper-bundle.min",get_theme_file_uri("/assets/vendor/swiper/swiper-bundle.min.js"),null,VERSION,true);
 	wp_enqueue_script("main.js",get_theme_file_uri("/assets/js/main.js"),null,VERSION,true);
     // enqueue your custom JavaScript file and localize the AJAX URL.
-    wp_enqueue_script('my-ajax-script', get_template_directory_uri() . '/assets/js/my-ajax-script.js', array('jquery'), null, true);
-    wp_localize_script('my-ajax-script', 'my_ajax_object', array(
+    wp_enqueue_script('yummy-ajax-script', get_template_directory_uri() . '/assets/js/yummy-ajax-script.js', array('jquery'), null, true);
+    wp_localize_script('yummy-ajax-script', 'yummy_ajax_object', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
-
 }
 add_action('wp_enqueue_scripts','yummy_scripts');
 function yummy_menus_price_meta_box(){
@@ -235,9 +234,85 @@ function yummy_menus_price_meta_box(){
         'high',
 
     );
+    // Add Meta Boxes For Book Table
+    add_meta_box(
+        'books_name',
+        'Name',
+        'book_name_callback',
+        'book_tables',
+        'side',
+        'high',
+
+    );
+    add_meta_box(
+        'books_email',
+        'Email',
+        'book_mail_callback',
+        'book_tables',
+        'side',
+        'high',
+    );
+    add_meta_box(
+        'books_phone',
+        'Phone Number',
+        'book_phone_callback',
+        'book_tables',
+        'side',
+        'high',
+    );
+    add_meta_box(
+        'books_date_time',
+        'Booking Date and Time',
+        'book_date_time_callback',
+        'book_tables',
+        'side',
+        'high',
+    );
+    add_meta_box(
+        'book_people',
+        'Number Of People',
+        'book_people_callback',
+        'book_tables',
+        'side',
+        'high',
+    );
     
 }
 add_action('add_meta_boxes', 'yummy_menus_price_meta_box');
+// Book a Table Name Callback
+function book_name_callback($post){
+    $book_name = get_post_meta($post->ID,'book_name',true);
+    ?>
+     <input type="text" name="book_name" id="book_name" value="<?php echo $book_name ?>" style="width:100%;" />
+    <?php
+}
+function book_mail_callback($post){
+    $book_email = get_post_meta($post->ID,'book_email',true);
+    ?>
+     <input type="text" name="book_email" id="book_mail" value="<?php echo $book_email ?>" style="width:100%;" />
+    <?php
+}
+function book_phone_callback($post){
+    $book_phoneNumber = get_post_meta($post->ID,'book_phone',true);
+    ?>
+     <input type="text" name="book_phone" id="book_phone" value="<?php echo $book_phoneNumber ?>" style="width:100%;" />
+    <?php
+
+}
+function book_date_time_callback($post){
+    $book_dateTime = get_post_meta($post->ID,'book_date_time',true);
+    ?>
+     <input type="text" name="book_date_time" id="book_phone" value="<?php echo  $book_dateTime ?>" style="width:100%;" />
+    <?php
+    
+}
+function book_people_callback($post){
+    $book_people = get_post_meta($post->ID,'people',true);
+    ?>
+     <input type="text" name="people" id="people" value="<?php echo $book_people ?>" style="width:100%;" />
+    <?php
+
+}
 // Cheafs Facebook Profile Meta Box Callback Function
 function cheaf_facebook_callback($post){
     $cheaf_facebook = get_post_meta($post->ID,'cheaf_facebook',true);
@@ -412,33 +487,17 @@ if(!function_exists('post_in_cheafs')){
 
     }
 }
-// Book a Table Function
-if(!function_exists('book_tables')){
-    function book_table(){
-        if(isset($_POST['submit']) && wp_verify_nonce($_POST['book_table_nonce'],basename(__FILE__))){
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $date = $_POST['date'];
-            $time = $_POST['time'];
-            $numberOfpeoples = $_POST['people'];
-            $message = $_POST['message'];
-        }
-
-
-    }
-}
-function handle_my_ajax_request() {
+// Book a table by ajax request
+function yummy_booking_ajax_request() {
     // Get data from AJAX request
-    $name = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : 'Guest';
-    $email = isset($_POST['email']) ;
-    $phone = isset($_POST['phone']) ;
+    $name = $_POST['name'] ? sanitize_text_field($_POST['name']) : 'Guest';
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $date = $_POST['date'];
     $time = $_POST['time'];
     $numberOfpeoples = $_POST['people'];
     $message = $_POST['message'];
     $post_title = $name . " - make a new reservation";
-
     $post_data = array(
         'post_title'    => $post_title,
         'post_content'  =>$message,
@@ -449,14 +508,24 @@ function handle_my_ajax_request() {
     );
     $insert_status =  wp_insert_post($post_data);
     if ($insert_status && !is_wp_error($insert_status)) {
+
         // Successfully inserted post, now add meta data
-        add_post_meta($insert_status, 'customer_name', $name, true);
-        add_post_meta($insert_status, 'customer_email', $email, true);
-        add_post_meta($insert_status, 'customer_phone', $phone, true);
-        add_post_meta($insert_status, 'reservation_people', $numberOfpeoples, true);
-        add_post_meta($insert_status, 'reservation_date', $date, true);
-        add_post_meta($insert_status, 'reservation_time', $time, true);
-        add_post_meta($insert_status, 'reservation_message', $message, true);
+        if($name){
+            update_post_meta($insert_status, 'book_name', wp_kses_post($name));
+        }
+        if($email){
+            update_post_meta($insert_status, 'book_email', wp_kses_post($email));
+        }
+        if($phone){
+            update_post_meta($insert_status, 'book_phone', wp_kses_post($phone));
+        }
+        if($date || $time){
+            $date_time = $date.' '.$time;
+            update_post_meta($insert_status, 'book_date_time', wp_kses_post( $date_time));
+        }
+        if($numberOfpeoples){
+            update_post_meta($insert_status, 'people', wp_kses_post( $numberOfpeoples));
+        }
     }
     // Create response
     if($insert_status){
@@ -471,8 +540,32 @@ function handle_my_ajax_request() {
     // Send JSON response
     wp_send_json_success($response);
 }
-// Register AJAX action for logged-in users
-add_action('wp_ajax_my_ajax_action', 'handle_my_ajax_request');
+// Register AJAX action for logged-in users-booking
+add_action('wp_ajax_booking_ajax_action', 'yummy_booking_ajax_request');
 
-// Register AJAX action for guests (non-logged-in users)
-add_action('wp_ajax_nopriv_my_ajax_action', 'handle_my_ajax_request');
+// Register AJAX action for guests (non-logged-in users)-booking
+add_action('wp_ajax_nopriv_booking_ajax_action', 'yummy_booking_ajax_request');
+
+function yummy_conact_form_ajax_request(){
+    $contact_name    = sanitize_text_field($_POST['contact_name']);
+    $contact_email   = sanitize_email($_POST['contact_email']);
+    $contact_subject = sanitize_text_field($_POST['contact_subject']);
+    $contact_message = wp_kses_post($_POST['contact_message']);
+    
+    if ($contact_name && $contact_email && $contact_subject && $contact_message) {
+        $mail_content = "Name: {$contact_name}<br>Email: {$contact_email}<br><br>{$contact_message}";
+        $headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'Reply-To: ' . $contact_email
+        );
+    
+        $admin_email = get_option('admin_email');
+        wp_mail($admin_email, $contact_subject, $mail_content, $headers);
+    }
+
+}
+// Register AJAX action for logged-in users - contact form
+add_action('wp_ajax_contact_form_ajax_action', 'yummy_conact_form_ajax_request');
+
+// Register AJAX action for guests (non-logged-in users) - contact form
+add_action('wp_ajax_nopriv_contact_form_ajax_action', 'yummy_conact_form_ajax_request');

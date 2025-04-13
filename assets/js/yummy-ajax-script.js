@@ -1,7 +1,6 @@
 jQuery(document).ready(function($) {
     $('#submit').click(function(event) {
         event.preventDefault(); // Prevent default form submission
-
         // Get the Form Values
         var name = $('#name').val();
         var email = sanitizeEmail($('#email').val());
@@ -11,7 +10,7 @@ jQuery(document).ready(function($) {
         var time = $('#time').val();
         var message =$('#message').val();
 
-      //  console.log("Sanitized Inputs:", { name, email, phone, people, date, time, message });
+       //console.log("Sanitized Inputs:", { name, email, phone, people, date, time, message });
 
         // Get the Notice Elements
         var loading = $('.loading'),
@@ -24,9 +23,9 @@ jQuery(document).ready(function($) {
                 sent_message.removeClass('ds-block');
                 $.ajax({
                     type: 'POST',
-                    url: my_ajax_object.ajax_url,
+                    url: yummy_ajax_object.ajax_url,
                     data: {
-                        action: 'my_ajax_action', // Must match the PHP action
+                        action: 'booking_ajax_action', // Must match the PHP action
                         name: name,
                         email: email,
                         phone: phone,
@@ -71,6 +70,35 @@ jQuery(document).ready(function($) {
             }, 3000);
         }
         event.preventDefault();
+    });
+    $("#msubmit").click(function(event){
+        event.preventDefault(); // Prevent default form submission
+        var contact_name  = $("#contact_name").val();
+        var contact_email = $("#contact_email").val();
+        var contact_subject = $("#contact_subject").val();
+        var contact_message = $("#contact_message").val();
+        //console.log("Sanitized Inputs:", {contact_name , contact_email, contact_subject, contact_message });
+        if(contact_name && contact_email && contact_subject && contact_message){
+            $.ajax({
+                type:'POST',
+                url:yummy_ajax_object.ajax_url,
+                data: {
+                    action: 'contact_form_ajax_action', // Must match the PHP action
+                    contact_name: contact_name,
+                    contact_email: contact_email,
+                    contact_subject: contact_subject,
+                    contact_message: contact_message
+
+                },
+                success: function(response) {
+                    if(response.data.message){
+
+                    }
+                }
+
+            });
+        }
+        
     });
 
 
