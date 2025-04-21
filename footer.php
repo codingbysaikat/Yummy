@@ -5,9 +5,7 @@
           <i class="bi bi-geo-alt icon"></i>
           <div class="address">
             <h4><?php echo esc_html__('Address');?></h4>
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p></p>
+            <?php echo get_theme_mod('address');?>
           </div>
 
         </div>
@@ -17,8 +15,8 @@
           <div>
             <h4><?php echo esc_html__('Contact');?></h4>
             <p>
-              <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-              <strong>Email:</strong> <span>info@example.com</span><br>
+              <strong>Phone:</strong> <span><?php echo get_theme_mod('call-us')?></span><br>
+              <strong>Email:</strong> <span><?php echo get_theme_mod('email');?></span><br>
             </p>
           </div>
         </div>
@@ -28,8 +26,7 @@
           <div>
             <h4><?php echo esc_html__('Opening Hours');?></h4>
             <p>
-              <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-              <strong>Sunday</strong>: <span>Closed</span>
+            <?php echo get_theme_mod('opening-hours');?>
             </p>
           </div>
         </div>
@@ -37,20 +34,25 @@
         <div class="col-lg-3 col-md-6">
           <h4><?php echo esc_html__('Follow Us')?></h4>
           <div class="social-links d-flex">
-            <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <?php if(get_theme_mod('twitter-x')):?>
+            <a href="<?php echo esc_url(get_theme_mod('twitter-x'));?>" class="twitter"><i class="bi bi-twitter-x"></i></a>
+            <?php endif; if(get_theme_mod('facebook')):?>
+            <a href="<?php echo esc_url( get_theme_mod('facebook'));?>" class="facebook"><i class="bi bi-facebook"></i></a>
+            <?php endif; if(get_theme_mod('instagram')):?>
+            <a href="<?php echo esc_url(get_theme_mod('instagram'));?>" class="instagram"><i class="bi bi-instagram"></i></a>
+            <?php endif; if(get_theme_mod('linkedin')):?>
+            <a href="<?php echo esc_url(get_theme_mod('linkedin'));?>" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <?php endif;?>
           </div>
         </div>
 
       </div>
     </div>
-
+<?php if(get_theme_mod('copy-right')):?>
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
+      <?php echo get_theme_mod('copy-right');?>
     </div>
-
+<?php endif;?>
   </footer>
 
   <!-- Scroll Top -->

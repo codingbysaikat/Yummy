@@ -171,6 +171,10 @@ function yummy_scripts(){
     wp_localize_script('yummy-ajax-script', 'yummy_ajax_object', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
+   //  handle Media Uploader:
+    wp_enqueue_media();
+    wp_enqueue_script( 'custom-gallery', get_template_directory_uri() . '/assets/js/customizer-gallery.js',   array( 'jquery' ), false, true );  
+    
 }
 add_action('wp_enqueue_scripts','yummy_scripts');
 function yummy_menus_price_meta_box(){
@@ -560,9 +564,20 @@ function yummy_conact_form_ajax_request(){
         );
     
         $admin_email = get_option('admin_email');
-        wp_mail($admin_email, $contact_subject, $mail_content, $headers);
+        $send_mail = wp_mail($admin_email, $contact_subject, $mail_content, $headers);
     }
+    if($send_mail){
+        $response = array(
+            'message' => true,
+        );
 
+    }else{
+        $response = array(
+            'message' => false,
+        );
+    }
+    // Send JSON response
+    wp_send_json_success($response);
 }
 // Register AJAX action for logged-in users - contact form
 add_action('wp_ajax_contact_form_ajax_action', 'yummy_conact_form_ajax_request');

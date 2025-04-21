@@ -334,9 +334,9 @@ get_header();
                         </div>
 
                         <div class="text-center mt-3">
-                            <div class="loading"><?php echo esc_html__('Loading') ?></div>
-                            <div class="error-message"></div>
-                            <div class="sent-message"><?php echo esc_html__('Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!') ?></div>
+                            <div class="loading" id="b_loading"><?php echo esc_html__('Loading') ?></div>
+                            <div class="error-message" id="b_error"></div>
+                            <div class="sent-message" id="b_message"><?php echo esc_html__('Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!') ?></div>
                             <button type="submit" id="submit"><?php echo esc_html__('Book a Table'); ?></button>
                         </div>
                     </form>
@@ -417,10 +417,11 @@ get_header();
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <?php if(get_theme_mod("google-map")):?>
 
             <div class="mb-5">
-                <iframe style="width: 100%; height: 400px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen=""></iframe>
-            </div><!-- End Google Maps -->
+                <?php echo get_theme_mod("google-map");?>
+            <?php endif;?>
 
             <div class="row gy-4">
 
@@ -429,7 +430,7 @@ get_header();
                         <i class="icon bi bi-geo-alt flex-shrink-0"></i>
                         <div>
                             <h3><?php echo esc_html__('Address'); ?></h3>
-                            <p>A108 Adam Street, New York, NY 535022</p>
+                            <p><?php echo get_theme_mod('address');?></p>
                         </div>
                     </div>
                 </div><!-- End Info Item -->
@@ -439,7 +440,7 @@ get_header();
                         <i class="icon bi bi-telephone flex-shrink-0"></i>
                         <div>
                             <h3><?php echo esc_html__('Call Us'); ?></h3>
-                            <p>+1 5589 55488 55</p>
+                            <p><?php echo get_theme_mod('call-us')?></p>
                         </div>
                     </div>
                 </div><!-- End Info Item -->
@@ -449,7 +450,7 @@ get_header();
                         <i class="icon bi bi-envelope flex-shrink-0"></i>
                         <div>
                             <h3><?php echo esc_html__('Email Us'); ?></h3>
-                            <p>info@example.com</p>
+                            <p><?php echo get_theme_mod('email');?></p>
                         </div>
                     </div>
                 </div><!-- End Info Item -->
@@ -459,7 +460,7 @@ get_header();
                         <i class="icon bi bi-clock flex-shrink-0"></i>
                         <div>
                             <h3><?php echo esc_html__('Opening Hours'); ?><br></h3>
-                            <p><strong>Mon-Sat:</strong> 11AM - 23PM; <strong>Sunday:</strong> Closed</p>
+                            <p><?php echo get_theme_mod('opening-hours');?></p>
                         </div>
                     </div>
                 </div><!-- End Info Item -->
@@ -486,9 +487,9 @@ get_header();
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <div class="loading"><?php echo esc_html__('Loading') ?></div>
-                        <div class="error-message"></div>
-                        <div class="sent-message"><?php echo esc_html__('Your message has been sent. Thank you!') ?></div>
+                        <div class="loading" id="con_loading"><?php echo esc_html__('Loading') ?></div>
+                        <div class="error-message" id="con_error"></div>
+                        <div class="sent-message" id="con_message"><?php echo esc_html__('Your message has been sent. Thank you!') ?></div>
 
                         <button type="submit" id="msubmit"><?php echo esc_html__('Send Message') ?></button>
                     </div>

@@ -182,6 +182,15 @@ Tags: Landing & Website
     margin-bottom: 24px;
     font-weight: 600;
   }
+  .php-email-form .merror-message {
+    display: none;
+    background: #df1529;
+    color: #ffffff;
+    text-align: left;
+    padding: 15px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
   
   .php-email-form .sent-message {
     display: none;
@@ -192,8 +201,24 @@ Tags: Landing & Website
     margin-bottom: 24px;
     font-weight: 600;
   }
+  .php-email-form .msent-message {
+    display: none;
+    color: #ffffff;
+    background: #059652;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
   
   .php-email-form .loading {
+    display: none;
+    background: var(--surface-color);
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 24px;
+  }
+  .php-email-form .mloading {
     display: none;
     background: var(--surface-color);
     text-align: center;

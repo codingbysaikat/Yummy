@@ -13,9 +13,10 @@ jQuery(document).ready(function($) {
        //console.log("Sanitized Inputs:", { name, email, phone, people, date, time, message });
 
         // Get the Notice Elements
-        var loading = $('.loading'),
-            error_message = $('.error-message'),
-            sent_message = $('.sent-message');
+        var loading = $('#b_loading'),
+            error_message = $('#b_error'),
+            sent_message = $('#b_message');
+            sent_message.addClass("ds-block");
 
         if (name && email && phone && people && date && time && message) {
             if (!loading.hasClass('ds-block')) {
@@ -36,13 +37,14 @@ jQuery(document).ready(function($) {
                     },
                     success: function(response) {
                     if(response.data.message == true){
-                        sent_message.addClass('ds-block');
                         loading.removeClass('ds-block');
+                        sent_message.addClass('ds-block');
+                       
                     }else{
-                        error_message.addClass('ds-block');
+                        loading.removeClass('ds-block');
                         error_message.text('Please fill all the fields correctly');
+                        error_message.addClass('ds-block');
                         removeNotice(error_message);
-                        
                     }
                 }
                 });
@@ -63,12 +65,6 @@ jQuery(document).ready(function($) {
             }
             
         }
-
-        function removeNotice($element) {
-            setTimeout(function() {
-                $element.removeClass('ds-block');
-            }, 3000);
-        }
         event.preventDefault();
     });
     $("#msubmit").click(function(event){
@@ -78,30 +74,64 @@ jQuery(document).ready(function($) {
         var contact_subject = $("#contact_subject").val();
         var contact_message = $("#contact_message").val();
         //console.log("Sanitized Inputs:", {contact_name , contact_email, contact_subject, contact_message });
+        // Get The Notice Elements
+        var con_loading = $("#con_loading");
+        var con_error = $("#con_error");
+        var con_message = $("#con_message");
         if(contact_name && contact_email && contact_subject && contact_message){
-            $.ajax({
-                type:'POST',
-                url:yummy_ajax_object.ajax_url,
-                data: {
-                    action: 'contact_form_ajax_action', // Must match the PHP action
-                    contact_name: contact_name,
-                    contact_email: contact_email,
-                    contact_subject: contact_subject,
-                    contact_message: contact_message
+            if(!con_loading.hasClass('ds-block')){
+                con_loading.addClass('ds-block');
+                $.ajax({
+                    type:'POST',
+                    url:yummy_ajax_object.ajax_url,
+                    data: {
+                        action: 'contact_form_ajax_action', // Must match the PHP action
+                        contact_name: contact_name,
+                        contact_email: contact_email,
+                        contact_subject: contact_subject,
+                        contact_message: contact_message
+    
+                    },
+                    success: function(response) {
+                        console.log(response.data.message);
+                            if(response.data.message == true){
+                                con_loading.removeClass('ds-block');
+                                con_message.addClass('ds-block');
+                               
+                            }else{
+                                con_loading.removeClass('ds-block');
+                                con_error.addClass('ds-block');
+                                con_error.text('System error! Please try again.'); 
+                                removeNotice(con_error);                                                             
+                            } 
+                    }   
+                });
 
-                },
-                success: function(response) {
-                    if(response.data.message){
-
-                    }
-                }
-
-            });
+            }else {
+                con_loading.removeClass('ds-block');
+            }
+        } else {
+            if (!con_error.hasClass('ds-block')) {
+                con_error.addClass('ds-block');
+                con_error.text('Please fill all the fields correctly');
+                removeNotice(con_error);
+            } else {
+                con_error.removeClass('ds-block');
+                
+            }
+            if(con_message.hasClass('ds-block')){
+                con_message.removeClass('ds-block');
+            }
+            
         }
         
     });
 
-
+    function removeNotice($element) {
+        setTimeout(function() {
+            $element.removeClass('ds-block');
+        }, 3000);
+    }
     // Sanitize Phone Number
     function sanitizePhone(phone) {
        // phone = phone.replace(/[^0-9+()-\s]/g, ""); // Remove invalid characters

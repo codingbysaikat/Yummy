@@ -1,4 +1,7 @@
 <?php
+
+use WpOrg\Requests\Exception\Transport;
+
 function yummy_customize_register( $wp_customize){
     // Add a Section for Hero Area
     $wp_customize->add_section('hero',array(
@@ -14,17 +17,37 @@ function yummy_customize_register( $wp_customize){
     ));
     // Add a Section for About Information
     $wp_customize->add_section('about-info',array(
-        'title'=>__('About Info'),
+        'title'=>__('About Info','yummy'),
         'priority'=>'60'
 
     ));
     // Add a Section for Menu
     $wp_customize->add_section('menus-sec',array(
-        'title'=>__('Menu Section'),
+        'title'=>__('Menu Section','yummy'),
         'priority'=>'65',
 
     ));
+    // Add a Section for Contact Information
+    $wp_customize->add_section('contact-info',array(
+        'title'=>__('Add Contact Information','yummy'),
+        'priority'=>'70',
+    ));
+    // Add Section for Social Medies
+    $wp_customize->add_section('social-media',array(
+        'title'=>__("Add Social Media Links"),
+        'priority'=>'80',
 
+    ));
+    // Add Section for Social Medies
+    $wp_customize->add_section('copy-right',array(
+        'title'=>__("Copy Right"),
+        'priority'=>'90',
+    ));
+    // Add Gallery 
+    $wp_customize->add_section( 'gallery', array(
+        'title'    => __( 'Gallery', 'yummy' ),
+        'priority' => 160,
+    ) );
     // Start Hero Section Controls and Settings
     // Add Control and Setting for a Headline
     $wp_customize->add_setting('headline',array(
@@ -173,5 +196,146 @@ function yummy_customize_register( $wp_customize){
         'type'=>'text',
     ));
     // End Control and Setting for Number of Projects
+    // Add Control and Setting for Conatct Information
+    // Add Google Map Setting
+    $wp_customize->add_setting('google-map',array(
+        'default'=>"",
+        'transport'=>'refresh',
+    ));
+    // Add Google Map Control
+    $wp_customize->add_control('google-map',array(
+        'label'=>__("Add Your Goolge Embed Map","yummy"),
+        'section'=>'contact-info',
+        'settings'=>'google-map',
+        'type'=>'textarea',
+    ));
+    // Add Address Control
+    $wp_customize->add_setting('address',array(
+        'default'=>'A108 Adam Street, New York, NY 535022',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control('address',array(
+        'label'=>__('Add Your Address','yummy'),
+        'section'=>'contact-info',
+        'settings'=>'address',
+        'type'=>'text',
+
+    ));
+    // End Address Control
+    // Add Call Us Control
+    $wp_customize->add_setting('call-us',array(
+        'default'=>'+1 5589 55488 55',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control('call-us',array(
+        'label'=>__('Add Phone Number','yummy'),
+        'section'=>'contact-info',
+        'settings'=>'call-us',
+        'type'=>'text',
+
+    ));
+    // End Call Us Control   
+    // Add Email Control
+    $wp_customize->add_setting('email',array(
+        'default'=>'info@example.com',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control('email',array(
+        'label'=>__('Add Email','yummy'),
+        'section'=>'contact-info',
+        'settings'=>'email',
+        'type'=>'text',
+
+    ));
+    // End Email Us Control
+    // Add Opening Hours Control
+    $wp_customize->add_setting('opening-hours',array(
+        'default'=>'<strong>Mon-Sat:</strong> 11AM - 23PM; <strong>Sunday:</strong> Closed',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control('opening-hours',array(
+        'label'=>__('Add Opening Hours','yummy'),
+        'section'=>'contact-info',
+        'settings'=>'opening-hours',
+        'type'=>'textarea',
+
+    ));
+    // End Opening Hours Control       
+    // End Control and Setting for Conatct Information
+    // Start Control and Settings for Social Media
+        // Add Facebook Control
+    $wp_customize->add_setting('facebook',array(
+        'default'=>'https://www.facebook.com',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control("facebook",array(
+        'label'=>_('Add Facebook Link'),
+        'section'=>'social-media',
+        'settings'=>'facebook',
+        'type'=>'url',
+
+    ));
+    // Add Facebook Control
+    $wp_customize->add_setting('instagram',array(
+        'default'=>'https://www.instagram.com/',
+        'transport'=>'refresh',
+    ));
+    $wp_customize->add_control("instagram",array(
+        'label'=>_('Add Instagram Link'),
+        'section'=>'social-media',
+        'settings'=>'instagram',
+        'type'=>'url',
+
+    ));
+        // Add Twitter X Control
+        $wp_customize->add_setting('twitter-x',array(
+            'default'=>'https://x.com',
+            'transport'=>'refresh',
+        ));
+        $wp_customize->add_control("twitter-x",array(
+            'label'=>_('Add Twitter-X Link'),
+            'section'=>'social-media',
+            'settings'=>'twitter-x',
+            'type'=>'url',
+    
+        ));
+        // Add LinkedIn Control
+        $wp_customize->add_setting('linkedin',array(
+            'default'=>'https://www.linkedin.com',
+            'transport'=>'refresh',
+        ));
+        $wp_customize->add_control("linkedin",array(
+            'label'=>_('Add linkedIn Link'),
+            'section'=>'social-media',
+            'settings'=>'linkedin',
+            'type'=>'url',
+    
+        ));
+    // End Control and Settings for Social Media
+        // Add Copy-Right Control
+        $wp_customize->add_setting('copy-right',array(
+            'default'=>'<p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>',
+            'transport'=>'refresh',
+        ));
+        $wp_customize->add_control("copy-right",array(
+            'label'=>_('Add copy-right Link'),
+            'section'=>'copy-right',
+            'settings'=>'copy-right',
+            'type'=>'textarea',
+    
+        ));
+    // Add Gallery Control
+    $wp_customize->add_setting( 'gallery_images', array(
+        'default' => '',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field', // for JSON string
+    ) );
+    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'gallery_images_control', array(
+        'label'    => __( 'Select Gallery Images', 'yummy' ),
+        'section'  => 'gallery',
+        'settings' => 'gallery_images',
+        'type'     => 'hidden',
+    ) ) );
+
 }
 add_action("customize_register","yummy_customize_register");
