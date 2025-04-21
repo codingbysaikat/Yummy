@@ -1,7 +1,4 @@
 <?php
-
-use WpOrg\Requests\Exception\Transport;
-
 function yummy_customize_register( $wp_customize){
     // Add a Section for Hero Area
     $wp_customize->add_section('hero',array(
@@ -43,11 +40,6 @@ function yummy_customize_register( $wp_customize){
         'title'=>__("Copy Right"),
         'priority'=>'90',
     ));
-    // Add Gallery 
-    $wp_customize->add_section( 'gallery', array(
-        'title'    => __( 'Gallery', 'yummy' ),
-        'priority' => 160,
-    ) );
     // Start Hero Section Controls and Settings
     // Add Control and Setting for a Headline
     $wp_customize->add_setting('headline',array(
@@ -324,18 +316,5 @@ function yummy_customize_register( $wp_customize){
             'type'=>'textarea',
     
         ));
-    // Add Gallery Control
-    $wp_customize->add_setting( 'gallery_images', array(
-        'default' => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field', // for JSON string
-    ) );
-    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'gallery_images_control', array(
-        'label'    => __( 'Select Gallery Images', 'yummy' ),
-        'section'  => 'gallery',
-        'settings' => 'gallery_images',
-        'type'     => 'hidden',
-    ) ) );
-
 }
 add_action("customize_register","yummy_customize_register");
