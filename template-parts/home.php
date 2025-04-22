@@ -76,7 +76,7 @@ get_header();
         </div>
     </section><!-- /Stats Section -->
     <!-- Menu Section -->
-
+<?php if(post_in_term('starters')->have_posts() || post_in_term('Breakfast')->have_posts() || post_in_term('lunch')->have_posts() || post_in_term('lunch')->have_posts()):?>
     <section id="menu" class="menu section">
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
@@ -85,25 +85,26 @@ get_header();
         </div><!-- End Section Title -->
         <div class="container">
             <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-                <?php if(post_in_term('starters')):?>
+           
+                <?php if(post_in_term('starters')->have_posts()):?>
                 <li class="nav-item">
                     <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
                         <h4><?php echo esc_html__('Starters');?></h4>
                     </a>
                 </li><!-- End tab nav item -->
-                <?php endif;  if(post_in_term('lunch')):?>
+                <?php endif;  if(post_in_term('Breakfast')->have_posts()):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
                         <h4><?php echo esc_html__('Breakfast');?></h4>
                     </a><!-- End tab nav item -->
                 </li>
-                <?php endif; if(post_in_term('lunch')):?>
+                <?php endif; if(post_in_term('lunch')->have_posts()):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
                         <h4><?php echo esc_html__('Lunch');?></h4>
                     </a>
                 </li><!-- End tab nav item -->
-                <?php endif; if(post_in_term('dinner')):?>
+                <?php endif; if(post_in_term('dinner')->have_posts()):?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
                         <h4><?php echo esc_html__('Dinner');?></h4>
@@ -202,6 +203,7 @@ get_header();
         </div>
 
     </section>
+    <?php endif;?>
     <!-- /Menu Section -->
      <?php $events = post_in_event(); if($events->have_posts()):?>
     <!-- Events Section -->
