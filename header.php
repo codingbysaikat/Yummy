@@ -20,13 +20,13 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active"><?php echo esc_html__('Home');?><br></a></li>
-          <li><a href="#about"><?php echo esc_html__('About');?></a></li>
-          <li><a href="#menu"><?php echo esc_html__('Menu');?></a></li>
-          <li><a href="#events"><?php echo esc_html__('Events');?></a></li>
-          <li><a href="#chefs"><?php echo esc_html__('Chefs');?></a></li>
-          <li><a href="#gallery"><?php echo esc_html__('Gallery')?></a></li>
+          <li><a href="<?php if(!is_front_page()): echo home_url(); endif;?>#about"><?php echo esc_html__('About');?></a></li>
+          <li><a href="<?php if(!is_front_page()): echo home_url(); endif;?>#menu"><?php echo esc_html__('Menu');?></a></li>
+          <li><a href="<?php if(!is_front_page()): echo home_url(); endif;?>#events"><?php echo esc_html__('Events');?></a></li>
+          <li><a href="<?php if(!is_front_page()): echo home_url(); endif;?>#chefs"><?php echo esc_html__('Chefs');?></a></li>
+          <li><a href="<?php if(!is_front_page()): echo home_url(); endif;?>#gallery"><?php echo esc_html__('Gallery')?></a></li>
           <?php if(has_nav_menu('primary-menu')):?>
-          <li class="dropdown"><a href="#"><span><?php echo esc_html__('More')?></span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="<?php echo home_url(); ?>"><span><?php echo esc_html__('More')?></span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <?php
              wp_nav_menu(array(
                     'theme_location' => 'primary-menu', // Use the registered menu location
