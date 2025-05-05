@@ -11,7 +11,7 @@
 <body class="index-page">
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+      <a href="<?php echo esc_url(home_url());?>" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="<?php $logo_url = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full'); if($logo_url): echo esc_url($logo_url); endif; ?>" alt="">
         <h1 class="sitename"><?php echo esc_html__(get_bloginfo("name"));?></h1>

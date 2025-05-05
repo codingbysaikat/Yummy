@@ -85,7 +85,6 @@ get_header();
         </div><!-- End Section Title -->
         <div class="container">
             <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-           
                 <?php if(post_in_term('starters')->have_posts()):?>
                 <li class="nav-item">
                     <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
