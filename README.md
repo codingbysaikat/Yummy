@@ -79,9 +79,9 @@ My services include:
 ## 🧑‍💻 Author
 
 **Developed & Maintained by:**  
-[Your Name or Brand]  
-📧 [your-email@example.com]  
-🌐 [yourwebsite.com] *(optional)*
+[Themesaikat]  
+📧 [saikatm3121@gmail.com]  
+🌐 [themesaikat.com]
 
 ---
 
