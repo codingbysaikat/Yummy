@@ -81,7 +81,7 @@ My services include:
 **Developed & Maintained by:**  
 [Themesaikat]  
 📧 [saikatm3121@gmail.com]  
-🌐 [[themesaikat.com](https://themesaikat.com/freethemes/wordpress-restaurant-theme/)]
+🌐 [[free wordpress restaurant themes](https://themesaikat.com/freethemes/wordpress-restaurant-theme/)]
 
 ---
 
